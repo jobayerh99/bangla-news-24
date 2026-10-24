@@ -16,14 +16,14 @@ const NavLinks = async() => {
     const navs : Navs[] = data.data
     const filterdNavs = navs.filter(n => n.scrapable)
 
-    // console.log(navs);
+    
 
     return (
         <div className="flex gap-3 justify-center my-3">
 
             <Link href={'/'}>হোম</Link>
 
-            {filterdNavs.map((n, i) => <Link key={i} href={n.slug}>{n.title}</Link>)}
+            {filterdNavs.map((n, i) => <Link key={i} href={`/category/${n.slug}`}>{n.title}</Link>)}
         </div>
     );
 };

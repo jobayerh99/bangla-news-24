@@ -1,13 +1,11 @@
 
 import Image from 'next/image';
-import React from 'react';
+
 import NavLinks from './NavLinks';
 
 const Header = () => {
 
-    const date = new Date().toLocaleDateString("bn-BD", {
-        dateStyle: "full"
-    })
+ 
 
     return (
 
@@ -33,9 +31,9 @@ const Header = () => {
                             Bangla News 24
                         </span>
 
-                        <span className="whitespace-nowrap text-xs text-neutral-500">
+                        {/* <span className="whitespace-nowrap text-xs text-neutral-500">
                             {date}
-                        </span>
+                        </span> */}
                     </div>
                 </div>
 
