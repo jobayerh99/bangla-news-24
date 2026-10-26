@@ -1,3 +1,4 @@
+import NotFound from '@/app/not-found';
 import NewsCard from '@/components/NewsCard';
 
 interface INews {
@@ -18,6 +19,10 @@ const CategoryNews = async ({ params }: { params: Promise<{ categoryId: string }
     const data = await res.json()
 
     const categoryNews: INews[] = data.data
+
+    if(!categoryNews){
+        NotFound()
+    }
 
     return (
         <div>

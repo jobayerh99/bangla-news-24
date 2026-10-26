@@ -18,12 +18,14 @@ const UserInfo = () => {
             {
                 user ? (
                     <div className="flex justify-center items-center gap-2">
-                        <div className="avatar flex flex-col items-center gap-2">
-                            <div className="ring-primary ring-offset-base-100 w-8 rounded-full ring-2 ring-offset-2">
-                                <img alt="Tailwind-CSS-Avatar-component" src={user?.image as string} />
+                        <Link href={'/profile'}>
+                            <div className="avatar flex flex-col items-center gap-2">
+                                <div className="ring-primary ring-offset-base-100 w-8 rounded-full ring-2 ring-offset-2">
+                                    <img alt="Tailwind-CSS-Avatar-component" src={user?.image as string} />
+                                </div>
+                                <h2>{user?.name}</h2>
                             </div>
-                            <h2>{user?.name}</h2>
-                        </div>
+                        </Link>
 
                         <button onClick={handleSignOut} className="btn btn-error btn-xs">Sign Out</button>
                     </div>

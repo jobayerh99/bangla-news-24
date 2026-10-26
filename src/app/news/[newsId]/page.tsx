@@ -1,3 +1,4 @@
+import NotFound from '@/app/not-found';
 import React from 'react';
 
 const NewsDetails = async({params} : {params : {newsId:string}}) => {
@@ -8,6 +9,10 @@ const NewsDetails = async({params} : {params : {newsId:string}}) => {
 
     const data = await res.json()
     const news = data.data
+
+    if(!news){
+        NotFound()
+    }
 
     return (
         <div>
