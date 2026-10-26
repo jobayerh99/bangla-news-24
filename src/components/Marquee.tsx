@@ -1,30 +1,52 @@
-import MarqueeText from "react-marquee-text"
-import "react-marquee-text/dist/styles.css"
+
+import MarqueeText from "react-marquee-text";
+import "react-marquee-text/dist/styles.css";
+import { cacheLife } from "next/cache";
 
 interface Headlines {
-    id : string
-    title : string
+    id: string;
+    title: string;
+}
+
+async function getHeadlines(): Promise<Headlines[]> {
+    "use cache";
+
+    cacheLife("hours");
+
+    const res = await fetch(
+        "https://news-api-v2.vercel.app/api/news?limit=10"
+    );
+
+    if (!res.ok) {
+        throw new Error("Failed to fetch news headlines");
+    }
+
+    const data = await res.json();
+
+    return data.data as Headlines[];
 }
 
 const Marquee = async () => {
-
-    const res = await fetch('https://news-api-v2.vercel.app/api/news?limit=10')
-    const data = await res.json()
-    const headlines : Headlines[] = data.data
-
-    // console.log(headlines);
+    const headlines = await getHeadlines();
 
     return (
         <div className="bg-red-600 text-white">
-
             <div className="flex max-w-7xl mx-auto">
-                <div className="bg-red-700 text-white py-1 px-5 font-bold">সর্বশেষ</div>
+                <div className="bg-red-700 text-white py-1 px-5 font-bold">
+                    সর্বশেষ
+                </div>
 
-                <MarqueeText className="py-1" direction="right" duration={10}>
-                    {headlines.map(h => <span key={h.id}>
-                        <span>{h.title}</span>
-                        <span className="mx-5">•</span>
-                    </span>)}
+                <MarqueeText
+                    className="py-1"
+                    direction="right"
+                    duration={10}
+                >
+                    {headlines.map((headline) => (
+                        <span key={headline.id}>
+                            <span>{headline.title}</span>
+                            <span className="mx-5">•</span>
+                        </span>
+                    ))}
                 </MarqueeText>
             </div>
         </div>

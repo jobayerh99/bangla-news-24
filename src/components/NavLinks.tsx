@@ -1,31 +1,47 @@
+
 import Link from "next/link";
+import { cacheLife } from "next/cache";
 
 interface Navs {
-    slug: string
-    title: string
-    topicId: string | null
-    url : string
-    scrapable: boolean
+  slug: string;
+  title: string;
+  topicId: string | null;
+  url: string;
+  scrapable: boolean;
 }
 
+async function getCategories(): Promise<Navs[]> {
+  "use cache";
 
-const NavLinks = async() => {
+  cacheLife("hours");
 
-    const res = await fetch("https://news-api-v2.vercel.app/api/categories")
-    const data = await res.json()
-    const navs : Navs[] = data.data
-    const filterdNavs = navs.filter(n => n.scrapable)
+  const res = await fetch(
+    "https://news-api-v2.vercel.app/api/categories"
+  );
 
-    
+  if (!res.ok) {
+    throw new Error("Failed to fetch categories");
+  }
 
-    return (
-        <div className="flex gap-3 justify-center my-3">
+  const data = await res.json();
 
-            <Link href={'/'}>হোম</Link>
+  return (data.data as Navs[]).filter((nav) => nav.scrapable);
+}
 
-            {filterdNavs.map((n, i) => <Link key={i} href={`/category/${n.slug}`}>{n.title}</Link>)}
-        </div>
-    );
+const NavLinks = async () => {
+  const filteredNavs = await getCategories();
+
+  return (
+    <div className="flex justify-center gap-3 my-3">
+      <Link href="/">হোম</Link>
+
+      {filteredNavs.map((nav) => (
+        <Link key={nav.slug} href={`/category/${nav.slug}`}>
+          {nav.title}
+        </Link>
+      ))}
+    </div>
+  );
 };
 
 export default NavLinks;
