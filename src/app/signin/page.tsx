@@ -40,23 +40,25 @@ const SignInPage = () => {
 
 
     return (
-        <div className='flex flex-col justify-center items-center gap-3 mt-4'>
+        <div className='mt-4 flex flex-col items-center justify-center gap-3 px-4'>
             <h2 className='text-2xl font-bold text-red-700'>সাইন ইন</h2>
-            <form onSubmit={onSubmit}>
-                <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
+            <form onSubmit={onSubmit} className='w-full max-w-sm'>
+                <fieldset className="fieldset w-full rounded-box border border-base-300 bg-base-200 p-4">
 
                     <label className="label">ই-মেইল</label>
-                    <input name='email' type="email" className="input w-md" placeholder="ই-মেইল" />
+                    <input name='email' type="email" className="input w-full" placeholder="ই-মেইল" />
 
                     <label className="label">পাসওয়ার্ড</label>
-                    <input name='password' type="password" className="input w-md" placeholder="পাসওয়ার্ড" />
+                    <input name='password' type="password" className="input w-full" placeholder="পাসওয়ার্ড" />
 
-                    <button type='submit' className="btn bg-red-700 text-white mt-4">সাইন ইন করুন</button>
+                    <button type='submit' className="btn mt-4 bg-red-700 text-white">সাইন ইন করুন</button>
                 </fieldset>
             </form>
 
-            <button onClick={handleGoogleSignIn} className='btn'>Sign In With Google</button>
-            <button onClick={handleGithubSignIn} className='btn'>Sign In With Github</button>
+            <div className='flex w-full max-w-sm flex-col gap-2'>
+                <button onClick={handleGoogleSignIn} className='btn'>Sign In With Google</button>
+                <button onClick={handleGithubSignIn} className='btn'>Sign In With Github</button>
+            </div>
         </div>
     );
 };

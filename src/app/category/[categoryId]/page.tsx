@@ -1,13 +1,13 @@
-import NotFound from '@/app/not-found';
+import { notFound } from 'next/navigation';
 import NewsCard from '@/components/NewsCard';
 
 interface INews {
     id: string;
     title: string;
-    description: string;
+    description: string | null;
     category: string;
     imageUrl: string;
-    imageAlt: string
+    imageAlt: string;
 }
 
 const CategoryNews = async ({ params }: { params: Promise<{ categoryId: string }> }) => {
@@ -16,19 +16,25 @@ const CategoryNews = async ({ params }: { params: Promise<{ categoryId: string }
 
     const res = await fetch(`https://news-api-v2.vercel.app/api/category/${categoryId}`)
 
+    if (!res.ok) {
+        notFound()
+    }
+
     const data = await res.json()
 
     const categoryNews: INews[] = data.data
 
-    if(!categoryNews){
-        NotFound()
+    if (!categoryNews || !Array.isArray(categoryNews)) {
+        notFound()
     }
 
     return (
-        <div>
-            <h1 className='text-2xl font-bold border-b border-red-700 my-5'>{data.title}</h1>
+        <div className="py-2">
+            <h1 className='my-5 border-b border-red-700 pb-2 text-2xl font-bold'>
+                {data.title ?? categoryId}
+            </h1>
 
-            <div className='grid grid-cols-3 gap-5'>
+            <div className='grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3'>
                 {categoryNews.map(news => <NewsCard key={news.id} news={news} />)}
             </div>
         </div>

@@ -8,7 +8,7 @@ interface IOtherSection {
   articles: {
     id: string;
     title: string;
-    description: string;
+    description: string | null;
     category: string;
     imageUrl: string;
     imageAlt: string;
@@ -19,38 +19,58 @@ interface IOtherSection {
 export default async function Home() {
 
   const res = await fetch('https://news-api-v2.vercel.app/api/news/sections')
+
+  if (!res.ok) {
+    return (
+      <div className="py-20 text-center text-neutral-500">
+        খবর আনা যায়নি। অনুগ্রহ করে কিছুক্ষণ পর আবার চেষ্টা করুন।
+      </div>
+    )
+  }
+
   const data = await res.json()
   const sections = data.data
-  const mainNews = sections[0].articles
 
-  const otherSections:IOtherSection[] = sections.slice(1)
+  if (!Array.isArray(sections) || sections.length === 0) {
+    return (
+      <div className="py-20 text-center text-neutral-500">
+        এই মুহূর্তে কোনো খবর পাওয়া যায়নি।
+      </div>
+    )
+  }
+
+  const mainNews = sections[0].articles ?? []
+
+  const otherSections: IOtherSection[] = sections.slice(1)
 
 
 
   return (
-    <div >
-      
-      <div className="grid grid-cols-3  gap-2">
-        {/* news section */}
-        <div className="col-span-2 pt-3">
-          <MainNews news={mainNews} />
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
 
-          <div className="grid gap-5 mt-5">
-            {otherSections.map(os => <div key={os.curationId}>
-              <h1 className="font-bold border-b-2 border-red-700 pb-2">{os.title}</h1>
+      {/* news section */}
+      <div className="pt-3 lg:col-span-2">
+        <MainNews news={mainNews} />
 
-              <div className="grid mt-3 grid-cols-3 gap-3">
-                {os.articles.map((news) => <NewsCard key={news.id} news={news} />)}
+        <div className="mt-5 grid gap-5">
+          {otherSections.map(os => (
+            <div key={os.curationId}>
+              <h2 className="border-b-2 border-red-700 pb-2 font-bold">
+                {os.title}
+              </h2>
+
+              <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {os.articles?.map((news) => <NewsCard key={news.id} news={news} />)}
               </div>
 
-            </div>)}
-          </div>
+            </div>
+          ))}
         </div>
+      </div>
 
-        {/* most read section */}
-        <div className="col-span-1 pt-3">
-              <MostRead/>
-        </div>
+      {/* most read section */}
+      <div className="pt-3">
+        <MostRead />
       </div>
     </div>
   );

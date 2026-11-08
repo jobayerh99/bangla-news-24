@@ -33,12 +33,12 @@ const Marquee = async () => {
     return (
         <div className="bg-red-600 text-white">
             <div className="flex max-w-7xl mx-auto">
-                <div className="bg-red-700 text-white py-1 px-5 font-bold">
+                <div className="shrink-0 bg-red-700 px-5 py-1 font-bold">
                     সর্বশেষ
                 </div>
 
                 <MarqueeText
-                    className="py-1"
+                    className="min-w-0 flex-1 py-1"
                     direction="right"
                     duration={10}
                 >

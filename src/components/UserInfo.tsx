@@ -17,28 +17,30 @@ const UserInfo = () => {
 
             {
                 user ? (
-                    <div className="flex justify-center items-center gap-2">
-                        <Link href={'/profile'}>
-                            <div className="avatar flex flex-col items-center gap-2">
-                                <div className="ring-primary ring-offset-base-100 w-8 rounded-full ring-2 ring-offset-2">
-                                    <img alt="Tailwind-CSS-Avatar-component" src={user?.image as string} />
+                    <div className="flex items-center justify-center gap-2">
+                        <Link href={'/profile'} className="flex items-center gap-2">
+                            <div className="avatar">
+                                <div className="w-8 rounded-full ring-2 ring-primary ring-offset-2 ring-offset-base-100">
+                                    <img alt={user?.name ?? "প্রোফাইল"} src={user?.image as string} />
                                 </div>
-                                <h2>{user?.name}</h2>
                             </div>
+                            <h2 className="hidden text-sm sm:block">{user?.name}</h2>
                         </Link>
 
-                        <button onClick={handleSignOut} className="btn btn-error btn-xs">Sign Out</button>
+                        <button onClick={handleSignOut} className="btn btn-error btn-xs">
+                            সাইন আউট
+                        </button>
                     </div>
                 ) : (
-                    <div >
+                    <div className="flex items-center gap-1 sm:gap-2">
                         <Link href={"/signin"}>
-                            <button className="btn btn-ghost btn-sm text-neutral-700 hover:text-red-700">
+                            <button className="btn btn-ghost btn-xs text-neutral-700 hover:text-red-700 sm:btn-sm">
                                 সাইন ইন
                             </button>
                         </Link>
 
                         <Link href={"/signup"}>
-                            <button className="btn btn-sm border-0 bg-red-700 px-2 font-semibold text-white hover:bg-red-800 sm:px-3">
+                            <button className="btn btn-xs bg-red-700 px-2 font-semibold text-white hover:bg-red-800 sm:btn-sm sm:px-3">
                                 সাইন আপ
                             </button>
                         </Link>
