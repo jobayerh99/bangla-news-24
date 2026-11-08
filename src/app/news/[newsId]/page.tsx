@@ -1,17 +1,21 @@
-import NotFound from '@/app/not-found';
+import { notFound } from 'next/navigation';
 import React from 'react';
 
-const NewsDetails = async({params} : {params : {newsId:string}}) => {
+const NewsDetails = async({params} : {params : Promise<{newsId:string}>}) => {
 
     const {newsId} = await params
 
     const res = await fetch(`https://news-api-v2.vercel.app/api/article/${newsId}`)
 
+    if (!res.ok) {
+        notFound()
+    }
+
     const data = await res.json()
     const news = data.data
 
     if(!news){
-        NotFound()
+        notFound()
     }
 
     return (

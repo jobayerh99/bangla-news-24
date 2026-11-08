@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 interface MostReadNews {
     id: string,
     title: string
@@ -16,10 +18,10 @@ const MostRead = async () => {
             <h1 className="font-bold text-red-700">সর্বাধিক পঠিত</h1>
 
             <div className="grid gap-3 ">
-                {news.map((n, i) => <div className="flex gap-2 items-center" key={n.id}>
+                {news.map((n, i) => <Link href={`/news/${n.id}`} key={n.id} className="flex gap-2 items-center">
                     <span className="text-2xl text-red-600">{i + 1}</span>
                     <h2>{n.title}</h2>
-                </div>)}
+                </Link>)}
             </div>
 
         </div>

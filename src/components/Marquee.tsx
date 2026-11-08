@@ -2,6 +2,7 @@
 import MarqueeText from "react-marquee-text";
 import "react-marquee-text/dist/styles.css";
 import { cacheLife } from "next/cache";
+import Link from "next/link";
 
 interface Headlines {
     id: string;
@@ -43,7 +44,7 @@ const Marquee = async () => {
                 >
                     {headlines.map((headline) => (
                         <span key={headline.id}>
-                            <span>{headline.title}</span>
+                            <Link href={`/news/${headline.id}`}>{headline.title}</Link>
                             <span className="mx-5">•</span>
                         </span>
                     ))}
